@@ -1,13 +1,11 @@
 {-# OPTIONS_GHC -XTemplateHaskell #-}
 module Language.Haskell.ExtractTest where
 
-import Test.Framework (defaultMain, testGroup)
+import Test.Framework (testGroup)
 import Test.Framework.Providers.HUnit
 import Test.HUnit
 
 import Language.Haskell.Extract 
-
-main = defaultMain groupsOfTest
 
 groupsOfTest = [
         testGroup "Meta Group" [
@@ -27,9 +25,6 @@ secondTest = "Language.Haskell.ExtractTest" @=? $(locationModule)
 thirdTest = snd (head $(functionExtractor "thirdFunction")) @=? "hej"
 
 thirdFunction = "hej"
-
-
-
 
 typeclassTest =
   do let expected = "thirdFunctionhej"
