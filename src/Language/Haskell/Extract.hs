@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 module Language.Haskell.Extract (
   functionExtractor,
   functionExtractorMap,
@@ -25,7 +27,11 @@ extractAllFunctions pattern =
 functionExtractor :: String -> ExpQ
 functionExtractor pattern =
   do functions <- extractAllFunctions pattern
-     let makePair n = TupE [ LitE $ StringL n , VarE $ mkName n]
+     let makePair n = TupE
+#if MIN_VERSION_template_haskell(2,16,0)
+                           $ map Just
+#endif
+                           [ LitE $ StringL n , VarE $ mkName n]
      return $ ListE $ map makePair functions
 
 
